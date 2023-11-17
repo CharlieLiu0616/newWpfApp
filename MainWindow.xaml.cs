@@ -24,6 +24,8 @@ namespace WpfApp
     public partial class MainWindow : Window
     {
         IEyeTracker eyeTracker = null;
+        GazePointX = 0.5;
+        GazePointY = 0.5;
         public MainWindow()
         {
             InitializeComponent();
@@ -46,6 +48,9 @@ namespace WpfApp
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+            drawingArea.Visibility = Visibility.Visible;
+            grid.Visibility = Visibility.Hidden;
+            this.updateLayout();
             // Start listening to gaze data.
             eyeTracker.GazeDataReceived += EyeTracker_GazeDataReceived;
             // Wait for some data to be received.
@@ -64,6 +69,9 @@ namespace WpfApp
             if (e.LeftEye.GazePoint.Validity == Validity.Valid)
             {
                 Trace.Write("L: (" + e.LeftEye.GazePoint.PositionOnDisplayArea.X + ", " + e.LeftEye.GazePoint.PositionOnDisplayArea.Y + ")");
+                GazePointX = e.LeftEye.GazePoint.PositionOnDisplayArea.X;
+                GazePointY = e.RightEye.GazePoint.PositionOnDisplayArea.Y;
+
             }
 
             if (e.RightEye.GazePoint.Validity == Validity.Valid)

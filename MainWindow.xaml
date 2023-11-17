@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
@@ -22,8 +22,16 @@
         <Button Grid.Column="1" Content="Start" HorizontalAlignment="Left" Margin="110,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="60" Click="Start_Click"/>
         <Button Grid.Column="1" Content="Stop" HorizontalAlignment="Left" Margin="210,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="60" Click="Stop_Click"/>
         <TextBlock Name ="textReminder" Grid.Column="1" HorizontalAlignment="Center" Margin="0,10,0,0" Grid.Row="1" TextWrapping="Wrap" FontSize="18"  Text="Please make sure the eyetracker is calibrated before starting!" VerticalAlignment="Top" Width="580"/>
-        <Ellipse Width="10" Height="10">
-            
-        </Ellipse>
     </Grid>
+    <Canvas Name="drawingArea" Background="grey"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,0,0,0"
+                Grid.Row = "1"
+                Grid.Column = "1"
+                Visibility = "Hidden">
+            <Ellipse Name="gazePoint" Width="10" Height="10" Fill="Blue" Canvas.Left="10" Canvas.Top="25" 
+            </Ellipse>
+
+    </Canvas> 
 </Window>
