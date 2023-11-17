@@ -24,8 +24,9 @@ namespace WpfApp
     public partial class MainWindow : Window
     {
         IEyeTracker eyeTracker = null;
-        GazePointX = 0.5;
-        GazePointY = 0.5;
+        Ellipse ellipse = null;
+        static double GazePointX = 0.5;
+        static double GazePointY = 0.5;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,11 +34,12 @@ namespace WpfApp
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            eyeTracker = GetEyeTracker.Get();
+            /* eyeTracker = GetEyeTracker.Get();
             if (eyeTracker == null)
             {
                 throw new NullReferenceException("No eyetracker found!");
-            }
+            } */
+            title.Visibility= Visibility.Collapsed;
             textReminder.Visibility = Visibility.Collapsed;
         }
 
@@ -48,12 +50,14 @@ namespace WpfApp
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            drawingArea.Visibility = Visibility.Visible;
-            grid.Visibility = Visibility.Hidden;
-            this.updateLayout();
             // Start listening to gaze data.
-            eyeTracker.GazeDataReceived += EyeTracker_GazeDataReceived;
+            //eyeTracker.GazeDataReceived += EyeTracker_GazeDataReceived;
             // Wait for some data to be received.
+
+            ellipse = new Ellipse();
+            ellipse.Width = 10;
+            ellipse.Height = 10;
+
             System.Threading.Thread.Sleep(10000000);
         }
 
@@ -71,7 +75,7 @@ namespace WpfApp
                 Trace.Write("L: (" + e.LeftEye.GazePoint.PositionOnDisplayArea.X + ", " + e.LeftEye.GazePoint.PositionOnDisplayArea.Y + ")");
                 GazePointX = e.LeftEye.GazePoint.PositionOnDisplayArea.X;
                 GazePointY = e.RightEye.GazePoint.PositionOnDisplayArea.Y;
-
+                
             }
 
             if (e.RightEye.GazePoint.Validity == Validity.Valid)

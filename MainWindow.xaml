@@ -6,32 +6,12 @@
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Name="grid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="100" />
-        </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="GRACE Project - Eyetracker Test" VerticalAlignment="Center" FontSize="30" Grid.Column="1"/>
-        <Button Grid.Column="1" Content="Connect" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="60" Click="Connect_Click"/>
-        <Button Grid.Column="1" Content="Start" HorizontalAlignment="Left" Margin="110,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="60" Click="Start_Click"/>
-        <Button Grid.Column="1" Content="Stop" HorizontalAlignment="Left" Margin="210,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="60" Click="Stop_Click"/>
-        <TextBlock Name ="textReminder" Grid.Column="1" HorizontalAlignment="Center" Margin="0,10,0,0" Grid.Row="1" TextWrapping="Wrap" FontSize="18"  Text="Please make sure the eyetracker is calibrated before starting!" VerticalAlignment="Top" Width="580"/>
-    </Grid>
-    <Canvas Name="drawingArea" Background="grey"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="0,0,0,0"
-                Grid.Row = "1"
-                Grid.Column = "1"
-                Visibility = "Hidden">
-            <Ellipse Name="gazePoint" Width="10" Height="10" Fill="Blue" Canvas.Left="10" Canvas.Top="25" 
-            </Ellipse>
+    <Canvas Name="canvas">
+        <TextBlock Name="title" HorizontalAlignment="Center" TextWrapping="Wrap" Canvas.Top="10" Canvas.Left="20" Text="GRACE Project - Eyetracker Test" VerticalAlignment="Center" FontSize="30"/>
+        <Button Content="Connect" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Bottom="10" VerticalAlignment="Center" Width="60" Click="Connect_Click"/>
+        <Button Content="Start" HorizontalAlignment="Left" Canvas.Left="110" Canvas.Bottom="10" VerticalAlignment="Center" Width="60" Click="Start_Click"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Canvas.Left="210" Canvas.Bottom="10" VerticalAlignment="Center" Width="60" Click="Stop_Click"/>
+        <TextBlock Name ="textReminder" HorizontalAlignment="Center" Canvas.Top="80" Canvas.Left="30" Grid.Row="1" TextWrapping="Wrap" FontSize="18"  Text="Please make sure the eyetracker is calibrated before starting!" VerticalAlignment="Top" Width="580"/>
+    </Canvas>
 
-    </Canvas> 
 </Window>
