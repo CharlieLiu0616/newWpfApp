@@ -24,9 +24,10 @@ namespace WpfApp
     public partial class MainWindow : Window
     {
         IEyeTracker eyeTracker = null;
-        Ellipse ellipse = null;
-        static double GazePointX = 0.5;
-        static double GazePointY = 0.5;
+        static Ellipse ellipse = null;
+        static double X = 0.5;
+        static double Y = 0.5;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,11 +35,11 @@ namespace WpfApp
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            /* eyeTracker = GetEyeTracker.Get();
+            eyeTracker = GetEyeTracker.Get();
             if (eyeTracker == null)
             {
                 throw new NullReferenceException("No eyetracker found!");
-            } */
+            }
             title.Visibility= Visibility.Collapsed;
             textReminder.Visibility = Visibility.Collapsed;
         }
@@ -50,15 +51,39 @@ namespace WpfApp
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+            if (ellipse == null)
+            {
+                ellipse = new Ellipse();
+                ellipse.Width = 10;
+                ellipse.Height = 10;
+                ellipse.Fill = Brushes.Blue;
+                canvas.Children.Add(ellipse);
+            }
+            this.UpdateLayout();
+            Thread.Sleep(1000);
+            double oldX = X;
+            double oldY = Y;
             // Start listening to gaze data.
-            //eyeTracker.GazeDataReceived += EyeTracker_GazeDataReceived;
+            eyeTracker.GazeDataReceived += EyeTracker_GazeDataReceived;
             // Wait for some data to be received.
 
-            ellipse = new Ellipse();
-            ellipse.Width = 10;
-            ellipse.Height = 10;
+            _ = Task.Run(() =>
+            {
+                while (true)
+                {
+                    if (oldX != X || oldY != Y)
+                    {
+                        oldX = X;
+                        oldY = Y;
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            Canvas.SetLeft(ellipse, X * 1920);
+                            Canvas.SetTop(ellipse, Y * 1200);
+                        });
+                    }
 
-            System.Threading.Thread.Sleep(10000000);
+                }
+            });
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
@@ -70,12 +95,12 @@ namespace WpfApp
 
         private static void EyeTracker_GazeDataReceived(object sender, GazeDataEventArgs e)
         {
+
             if (e.LeftEye.GazePoint.Validity == Validity.Valid)
             {
                 Trace.Write("L: (" + e.LeftEye.GazePoint.PositionOnDisplayArea.X + ", " + e.LeftEye.GazePoint.PositionOnDisplayArea.Y + ")");
-                GazePointX = e.LeftEye.GazePoint.PositionOnDisplayArea.X;
-                GazePointY = e.RightEye.GazePoint.PositionOnDisplayArea.Y;
-                
+                X = e.LeftEye.GazePoint.PositionOnDisplayArea.X;
+                Y = e.LeftEye.GazePoint.PositionOnDisplayArea.Y;
             }
 
             if (e.RightEye.GazePoint.Validity == Validity.Valid)
